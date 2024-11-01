@@ -16,6 +16,7 @@ export default defineConfig({
           tweakpane: 'Tweakpane',
         },
       },
+      external: ['tweakpane', new RegExp('^@tweakpane')],
     },
   },
   plugins: [dts({
