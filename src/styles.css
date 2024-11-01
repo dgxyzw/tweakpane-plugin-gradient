@@ -1,9 +1,9 @@
 .tp-gradient-range {
 	user-select: none;
 	position: relative;
-	width: calc(100% - 18px);
+	width: calc(100% - 14px);
 	height: 20px;
-	margin: 6px 9px;
+	margin: 6px 7px;
 	box-sizing: border-box;
 	transform: translateZ(0);
 }

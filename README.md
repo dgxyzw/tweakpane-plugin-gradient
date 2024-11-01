@@ -1,6 +1,10 @@
 # Tweakpane-plugin-gradient
 
+![cover](https://gist.github.com/user-attachments/assets/33bf4f3a-c932-434a-9294-e8ac9b2764a9)
+
 **Tweakpane-plugin-gradient** is a plugin for [Tweakpane](https://tweakpane.github.io/docs) that introduces a gradient picker as a new blade type, allowing users to create, visualize, and manage color gradients with ease.
+
+[DEMO](https://dgxyzw.github.io/tweakpane-plugin-gradient/)
 
 ## Installation
 
