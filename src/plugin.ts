@@ -30,6 +30,14 @@ export const GradientBladePlugin: BladePlugin<GradientBladeParams> = createPlugi
   accept(params) {
     if (params.view !== 'gradient') return null;
 
+    if (!Array.isArray(params.initialPoints)) {
+      throw new Error('initialPoints must be an array');
+    }
+
+    if (params.initialPoints.length < 2) {
+      throw new Error('initialPoints must have at least 2 points');
+    }
+
     return {
       initialValue: params.value,
       params: params,

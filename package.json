@@ -1,7 +1,7 @@
 {
   "name": "tweakpane-plugin-gradient",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Tweakpane plugin for editing gradients",
   "author": "dgxyzw",
   "license": "MIT",
