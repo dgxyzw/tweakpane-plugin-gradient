@@ -18,14 +18,19 @@ To use the gradient blade in your Tweakpane instance, register the plugin and se
 
 ```typescript
 import { Pane } from 'tweakpane';
-import { Gradient, GradientBladeApi, GradientPluginBundle } from 'tweakpane-plugin-gradient';
+import { 
+  Gradient,
+  GradientBladeApi,
+  GradientPluginBundle,
+  GradientBladeParams,
+} from 'tweakpane-plugin-gradient';
 
 const pane = new Pane();
 pane.registerPlugin(GradientPluginBundle);
 
 const gradientParams = {
   view: 'gradient',
-  initialPoints: [
+  initialPoints: [ // minimum 2 points
     { time: 0, value: { r: 255, g: 0, b: 255, a: 1 } },
     { time: 1, value: { r: 0, g: 255, b: 255, a: 1 } },
   ],
@@ -40,9 +45,9 @@ const gradientParams = {
   timePicker: false,
   timeStep: 0.001,
   timeDecimalPrecision: 4,
-} satisfies GradientBladeApi;
+} satisfies GradientBladeParams;
 
-const api = pane.addBlade(gradientParams);
+const api = pane.addBlade(gradientParams) as GradientBladeApi;
 
 api.on('change', (ev) => {
   console.log(ev.value.points);
@@ -63,7 +68,7 @@ The following parameters allow you to customize the gradient picker to suit vari
 ### Base parameters
 
 * **view** (string): Set to 'gradient' to initialize a gradient blade.
-* **initialPoints**: Array of points defining the gradient colors and positions.
+* **initialPoints**: Array of points defining the gradient colors and positions (minimum 2 points).
   * **time** (number): Position of the color stop in the gradient (0 to 1).
   * **value** (number): Object defining the RGBA color value (color 0-255, alpha 0-1).
 * **label** (string): Sets the label displayed in Tweakpane for the gradient field.
