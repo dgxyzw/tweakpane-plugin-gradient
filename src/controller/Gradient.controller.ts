@@ -279,12 +279,9 @@ export class GradientController implements ValueController<Gradient, GradientVie
 
 
     if ((event.rawValue - stepValue) !== 0) {
-      console.log('repeat', event.rawValue);
       this.getTimeController().value.setRawValue(stepValue, { forceEmit: true, last: event.options.last });
       return;
     }
-
-    console.log('ok', event.rawValue);
 
     point.time = event.rawValue;
     this.updateValue(newGradient, event.options.last);
