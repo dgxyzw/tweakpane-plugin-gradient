@@ -2,10 +2,21 @@
   "name": "tweakpane-plugin-gradient",
   "private": false,
   "version": "0.1.0",
+  "description": "A Tweakpane plugin for editing gradients",
+  "author": "dgxyzw",
+  "license": "MIT",
+  "homepage": "https://dgxyzw.github.io/tweakpane-plugin-gradient/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dgxyzw/tweakpane-plugin-gradient"
+  },
   "type": "module",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
   "main": "dist/index.cjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev:demo": "vite --config vite.config.demo.ts",
     "build:demo": "vite build --config vite.config.demo.ts",
