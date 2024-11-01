@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
-    outDir: 'dist-lib',
+    outDir: 'dist',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
@@ -20,5 +20,7 @@ export default defineConfig({
   },
   plugins: [dts({
     rollupTypes: true,
+    insertTypesEntry: true,
+    outDir: 'dist',
   })],
 });
