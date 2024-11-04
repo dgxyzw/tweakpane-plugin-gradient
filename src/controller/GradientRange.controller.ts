@@ -53,6 +53,7 @@ export class GradientRangeController implements ValueController<Gradient, Gradie
     window.addEventListener('mouseup', this.handleWindowMouseUp.bind(this));
     window.addEventListener('mousemove', this.handleWindowMouseMove.bind(this));
     this.view.rangeOverlayElement.addEventListener('mousedown', this.handleRangeOverlayMouseDown.bind(this));
+    this.viewProps.bindClassModifiers(this.view.element);
   }
 
   protected handleWindowMouseMove(event: MouseEvent): void {

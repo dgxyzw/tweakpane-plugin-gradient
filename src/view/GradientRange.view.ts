@@ -42,9 +42,7 @@ export class GradientRangeView implements View {
 
     this.update();
 
-    this.value.emitter.on('change', () => {
-      this.update();
-    });
+    this.value.emitter.on('change', () => this.update());
   }
 
   public update(): void {

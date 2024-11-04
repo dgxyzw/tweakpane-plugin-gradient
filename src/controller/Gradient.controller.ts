@@ -11,7 +11,7 @@ import {
   ViewProps,
   ValueEvents,
   StepConstraint,
-  NumberTextController,
+  NumberTextController, ViewPropsEvents,
 } from '@tweakpane/core';
 import { APaletteController } from '@tweakpane/core/dist/input-binding/color/controller/a-palette';
 import { Gradient } from '../model';
@@ -74,6 +74,8 @@ export class GradientController implements ValueController<Gradient, GradientVie
       this.syncAlphaPickerValue();
       this.syncColorPickerValue();
     });
+
+    this.viewProps.emitter.on('change', this.handleViewPropsChange.bind(this));
 
     this._gradientRangeController = this.buildRangeController();
     this.tryBuildColorPickerController();
@@ -300,22 +302,13 @@ export class GradientController implements ValueController<Gradient, GradientVie
 
   protected handleRangeActivePointChange(event: GradientRangeControllerEvents['changeActivePointId']): void {
     this._activePointId = event.pointId ?? null;
+    this.updateDisabledState();
 
-    if (this._activePointId === null) {
-      if (this._colorPickerController) this._colorPickerController.viewProps.set('disabled', true);
-      if (this._alphaNumberController) this._alphaNumberController.viewProps.set('disabled', true);
-      if (this._alphaSliderController) this._alphaSliderController.viewProps.set('disabled', true);
-      if (this._timeController) this._timeController.viewProps.set('disabled', true);
-
-      return;
-    }
+    if (this._activePointId === null) return;
 
     const point = this.value.rawValue.getPointById(this._activePointId);
 
-
     if (this._colorPickerController) {
-      this._colorPickerController.viewProps.set('disabled', false);
-
       this._colorPickerController.value.setRawValue(
         new IntColor([point.value.r, point.value.g, point.value.b, point.value.a], 'rgb'),
         { forceEmit: true, last: false },
@@ -323,22 +316,16 @@ export class GradientController implements ValueController<Gradient, GradientVie
     }
 
     if (this._alphaNumberController) {
-      this._alphaNumberController.viewProps.set('disabled', false);
-
       this._alphaNumberController.value.setRawValue(point.value.a, { forceEmit: true, last: false });
     }
 
     if (this._alphaSliderController) {
-      this._alphaSliderController.viewProps.set('disabled', false);
-
       const rgba = new IntColor([point.value.r, point.value.g, point.value.b, point.value.a], 'rgb');
 
       this._alphaSliderController.value.setRawValue(rgba, { forceEmit: true, last: false });
     }
 
     if (this._timeController) {
-      this._timeController.viewProps.set('disabled', false);
-
       this._timeController.value.setRawValue(point.time, { forceEmit: true, last: false });
     }
   }
@@ -368,6 +355,10 @@ export class GradientController implements ValueController<Gradient, GradientVie
     this._gradientRangeController.value.setRawValue(this.value.rawValue, { forceEmit: true, last: false });
   }
 
+  protected handleViewPropsChange(event: ViewPropsEvents['change']): void {
+    if (event.key === 'disabled') this.updateDisabledState();
+  }
+
   protected getColorPickerController(): ColorController {
     if (!this._colorPickerController) throw new Error('Color controller not found');
 
@@ -390,5 +381,15 @@ export class GradientController implements ValueController<Gradient, GradientVie
     if (!this._timeController) throw new Error('Time controller not found');
 
     return this._timeController;
+  }
+
+  protected updateDisabledState(): void {
+    this._gradientRangeController.viewProps.set('disabled', this.viewProps.get('disabled'));
+
+    const pointControllerIsDisabled = this.viewProps.get('disabled') || this._activePointId === null;
+    if (this._colorPickerController) this._colorPickerController.viewProps.set('disabled', pointControllerIsDisabled);
+    if (this._alphaNumberController) this._alphaNumberController.viewProps.set('disabled', pointControllerIsDisabled);
+    if (this._alphaSliderController) this._alphaSliderController.viewProps.set('disabled', pointControllerIsDisabled);
+    if (this._timeController) this._timeController.viewProps.set('disabled', pointControllerIsDisabled);
   }
 }

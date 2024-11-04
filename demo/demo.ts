@@ -37,6 +37,7 @@ const rbgaPickerGradientParams = {
   timePicker: false,
   timeStep: 0.001,
   timeDecimalPrecision: 4,
+  disabled: false,
 } satisfies GradientBladeParams;
 
 let rgbaPickerGradient: GradientBladeApi | undefined;
@@ -66,10 +67,14 @@ const settingsPane = new Pane({
 
 settingsPane.addBinding(rbgaPickerGradientParams, 'colorPicker', {
   label: 'Color picker',
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBinding(rbgaPickerGradientParams.colorPickerProps, 'alpha', {
   label: 'Color Picker Alpha',
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBinding(rbgaPickerGradientParams.colorPickerProps, 'layout', {
@@ -78,22 +83,30 @@ settingsPane.addBinding(rbgaPickerGradientParams.colorPickerProps, 'layout', {
     Inline: 'inline',
     Popup: 'popup',
   },
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBinding(rbgaPickerGradientParams.colorPickerProps, 'expanded', {
   label: 'Color Picker Expanded',
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBlade({ view: 'separator' });
 
 settingsPane.addBinding(rbgaPickerGradientParams, 'timePicker', {
   label: 'Time picker',
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBlade({ view: 'separator' });
 
 settingsPane.addBinding(rbgaPickerGradientParams, 'alphaPicker', {
   label: 'Alpha picker',
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBlade({ view: 'separator' });
@@ -103,6 +116,8 @@ settingsPane.addBinding(rbgaPickerGradientParams, 'timeStep', {
   min: 0.001,
   max: 0.1,
   step: 0.001,
+}).on('change', () => {
+  rebuild();
 });
 
 settingsPane.addBinding(rbgaPickerGradientParams, 'timeDecimalPrecision', {
@@ -110,8 +125,16 @@ settingsPane.addBinding(rbgaPickerGradientParams, 'timeDecimalPrecision', {
   min: 1,
   max: 4,
   step: 1,
+}).on('change', () => {
+  rebuild();
 });
 
-settingsPane.on('change', () => {
-  rebuild();
+settingsPane.addBlade({ view: 'separator' });
+
+settingsPane.addBinding(rbgaPickerGradientParams, 'disabled', {
+  label: 'Disabled',
+}).on('change', () => {
+  if (!rgbaPickerGradient) return;
+
+  rgbaPickerGradient.disabled = rbgaPickerGradientParams.disabled;
 });
